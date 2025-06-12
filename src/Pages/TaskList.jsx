@@ -8,14 +8,14 @@ export default function TaskList(){
     return(
         <>
            <div className="container">
-            <h1>Task List</h1>
+            <h1>Tasks List</h1>
             <table className="table">
                 <thead>
                     <tr>
-                        <th>Title</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Created at</th>
+                        <th>Title:</th>
+                        <th>Description:</th>
+                        <th>Status:</th>
+                        <th>Date:</th>
                     </tr>
                 </thead>
                 <tbody>

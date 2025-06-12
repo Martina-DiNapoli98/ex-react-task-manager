@@ -21,7 +21,7 @@ export default function TaskRow({task}){
             <tr>
                 <td><NavLink className="nav-link-task" to={`taskDetail/${task.id}`}>{task.title}</NavLink></td>
                 <td>{task.description}</td>
-                <td style={{color : colorStatus}}>{task.status}</td>
+                <td style={{color : colorStatus, fontWeight:"bold"}}>{task.status}</td>
                 <td>{formattedDate}</td>
             </tr>
         </>

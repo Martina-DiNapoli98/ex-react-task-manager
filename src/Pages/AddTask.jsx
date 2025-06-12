@@ -4,7 +4,7 @@ import GlobalContext from "../Contexts/GlobalContext"
 export default function AddTask(){
     const { addTask } = useContext(GlobalContext)
     const [title, setTitle] = useState("")
-    const statusRef = useRef("to Do")
+    const statusRef = useRef("")
     const descriptionRef = useRef()
     
     function titleIsValid(title) {
@@ -38,7 +38,7 @@ export default function AddTask(){
             alert("Task creata con successo!")
             setTitle("")
             descriptionRef.current.value = ""
-            statusRef.current.value = "To Do"
+            statusRef.current.value = ""
         } catch (error) {
             alert(error.message || "Errore durante la creazione della task")
         }
@@ -53,7 +53,7 @@ export default function AddTask(){
             <input type="text"
                 className="form-control m-2"
                 name="title"
-                placeholder="title"
+                placeholder="Add a title for your task..."
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
             />
@@ -61,7 +61,7 @@ export default function AddTask(){
             <textarea
                 className="form-control m-2"
                 name="description"
-                placeholder="description"
+                placeholder="Add a description for your task..."
                 ref={descriptionRef}
             />
 

@@ -4,6 +4,7 @@ import { useContext } from "react";
 import GlobalContext from "../Contexts/GlobalContext";
 import useTasks from "../Hooks/useTasks";
 import { useNavigate } from "react-router-dom";
+import Modal from "../Components/Modal";
 
 
 export default function TaskDetail(){
@@ -13,6 +14,7 @@ export default function TaskDetail(){
      const [remove, setRemove] = useState()
      const { removeTask } = useTasks();
      const navigate = useNavigate();
+     const [showModal, setShowModal] = useState(false)
      
     
     const task = tasks.find(t => String(t.id) === id);
@@ -27,7 +29,7 @@ export default function TaskDetail(){
         )
     }
 
-    async function hendleRemove(){
+    async function handleConfirmRemove(){
         try{
             await removeTask(task.id)
             alert(`Eliminazione task con id : ${task.id} avvenuta con successo`)
@@ -37,7 +39,7 @@ export default function TaskDetail(){
 
         }
     }
-   
+  
    
     return(
         <>
@@ -46,14 +48,22 @@ export default function TaskDetail(){
                 <p>Dettagli task con id: {id}</p>
             </div>
             <div className="container">
-                <div className="card" key={task.id}>
+                <div className="card task-detail-card" key={task.id}>
                     <p>Titolo : {task.title}</p>
                     <p>Descrizione : {task.description}</p>
                     <p>Data : {formattedDate}</p>
                     <p>Status : {task.status}</p>
                 </div>
-                <button onClick={hendleRemove}>Elimina Task</button>
+                <button type="submit" onClick={()=> setShowModal(true)}>Elimina Task</button>
             </div>
+            <Modal
+                title="Conferma eliminazione"
+                content={<p>Sei sicuro di voler eliminare la task <strong>{task.title}</strong>?</p>}
+                show={showModal}
+                onClose={() => setShowModal(false)}
+                onConfirm={handleConfirmRemove}
+                confirmText="Elimina"
+            />
         </>
     )
 }

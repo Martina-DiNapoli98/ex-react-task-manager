@@ -6,10 +6,13 @@ export default function Navbar(){
             <nav className="navbar navbar-expand navbar-light bg-light">
                 <ul className="nav navbar-nav">
                     <li className="nav-item">
+                        <NavLink className="nav-link" to="/">Home</NavLink>
+                    </li>
+                    <li className="nav-item">
                         <NavLink className="nav-link" to="/AddTask">Add Task</NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink className="nav-link" to="/TaskList">TaskList</NavLink>
+                        <NavLink className="nav-link" to="/TaskList">Tasks List</NavLink>
                     </li>
                 </ul>
             </nav>
