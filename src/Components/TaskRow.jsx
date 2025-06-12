@@ -1,4 +1,5 @@
 import { useMemo } from "react"
+import { NavLink } from "react-router-dom";
 
 export default function TaskRow({task}){
 
@@ -18,7 +19,7 @@ export default function TaskRow({task}){
     return(
         <>
             <tr>
-                <td>{task.title}</td>
+                <td><NavLink className="nav-link-task" to={`taskDetail/${task.id}`}>{task.title}</NavLink></td>
                 <td>{task.description}</td>
                 <td style={{color : colorStatus}}>{task.status}</td>
                 <td>{formattedDate}</td>

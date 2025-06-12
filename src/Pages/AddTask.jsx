@@ -1,44 +1,53 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useContext } from "react"
+import GlobalContext from "../Contexts/GlobalContext"
 
 export default function AddTask(){
-
+    const { addTask } = useContext(GlobalContext)
     const [title, setTitle] = useState("")
     const statusRef = useRef("to Do")
     const descriptionRef = useRef()
     
+    function titleIsValid(title) {
+        const symbols = "!@#$%^&*()-_=+[]{}|;:'\\,.<>?/`\"~";
 
+        if (title.trim() === "") {
+            alert("Devi inserire un titolo");
+            return false;
+        }
 
+        if (symbols.split("").some(s => title.includes(s))) {
+            alert("Il titolo contiene caratteri speciali non ammessi.");
+            return false;
+        }
 
+        return true;
+    }
 
-function titleIsValid(title) {
-  const symbols = "!@#$%^&*()-_=+[]{}|;:'\\,.<>?/`\"~";
-
-  if (title.trim() === "") {
-    alert("Devi inserire un titolo");
-    return false;
-  }
-
-  if (symbols.split("").some(s => title.includes(s))) {
-    alert("Il titolo contiene caratteri speciali non ammessi.");
-    return false;
-  }
-
-  return true;
-}
-        function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault()
-        if(!titleIsValid(title)) return
+        if(!titleIsValid(title)) return;
 
         const newTask = {
             title, 
             description: descriptionRef.current.value,
             status: statusRef.current.value
         }
-        console.log("task creato", newTask)
+
+        try {
+            await addTask(newTask)
+            alert("Task creata con successo!")
+            setTitle("")
+            descriptionRef.current.value = ""
+            statusRef.current.value = "To Do"
+        } catch (error) {
+            alert(error.message || "Errore durante la creazione della task")
+        }
     }
+
     return(
         <>
         <div className="container">
+            <h1>Add your Tasks</h1>
 
            <form onSubmit={handleSubmit}>
             <input type="text"
@@ -57,10 +66,10 @@ function titleIsValid(title) {
             />
 
             <select 
-            className="form-control m-2"
-            name="status" 
-            id="status" 
-            ref={statusRef}
+                className="form-control m-2"
+                name="status" 
+                id="status" 
+                ref={statusRef}
             >
                 <option value="To Do">To do</option>
                 <option value="Doing">Doing</option>

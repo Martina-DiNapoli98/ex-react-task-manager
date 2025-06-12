@@ -4,17 +4,36 @@ export default function useTasks(){
     const [tasks, setTasks] = useState([])
     const apiUrl = import.meta.env.VITE_API_URL;
 
-      const addTask = (newTask) => {
-    
-  };
+    async function addTask(newTask){
+        try {
+            const response = await fetch(`${apiUrl}/tasks`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newTask)
+            });
 
-  const removeTask = (taskId) => {
-   
-  };
+            const data = await response.json();
 
-  const updateTask = (updatedTask) => {
-   
-  };
+            if (!data.success) {
+                throw new Error(data.message || "Errore nella creazione della task");
+            }
+
+            setTasks(prev => [...prev, data.task]);
+            return data.task;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    const removeTask = (taskId) => {
+        // Da implementare
+    };
+
+    const updateTask = (updatedTask) => {
+        // Da implementare
+    };
 
     useEffect(()=>{
         fetch(`${apiUrl}/tasks`)
@@ -27,6 +46,9 @@ export default function useTasks(){
     },[])
 
     return {
-        tasks, addTask, removeTask, updateTask
+        tasks,
+        addTask,
+        removeTask,
+        updateTask
     }
 }
