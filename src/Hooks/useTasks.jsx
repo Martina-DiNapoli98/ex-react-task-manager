@@ -38,9 +38,25 @@ export default function useTasks(){
         setTasks(prev => prev.filter(task => task.id === !taskId))
     }
 
-    const updateTask = (updatedTask) => {
-        // Da implementare
-    };
+    function updateTaskInContext(updatedTask) {
+         setTasks(prevTasks =>
+            prevTasks.map(task => (task.id === updatedTask.id ? updatedTask : task))
+         );
+        }
+   async function updateTask(updatedTask){ // <-- cambia qui il nome del parametro
+        const res = await fetch(`${apiUrl}/tasks/${updatedTask.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedTask)
+        })
+        const data = await res.json();
+        if(!data.success){
+            throw new Error("task non aggiornata", error.message)
+        }
+        setTasks(prev => prev.map(task => task.id === updatedTask.id ? data.task : task));
+        return data
+    }
+
 
     useEffect(()=>{
         fetch(`${apiUrl}/tasks`)
@@ -56,6 +72,7 @@ export default function useTasks(){
         tasks,
         addTask,
         removeTask,
-        updateTask
+        updateTask,
+        updateTaskInContext
     }
 }

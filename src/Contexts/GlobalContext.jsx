@@ -3,14 +3,15 @@ import useTasks from "../Hooks/useTasks";
 const GlobalContext = createContext()
 
 export function GlobalProvider({children}){
-    const {tasks, addTask, removeTask, updateTask} = useTasks()
-
+    const {tasks, addTask, removeTask, updateTask , updateTaskInContext } = useTasks()
+    
     return (
         <GlobalContext.Provider value={{
             tasks,
             addTask,
             removeTask,
-            updateTask
+            updateTask,
+            updateTaskInContext
         }}>
             {children}
         </GlobalContext.Provider>

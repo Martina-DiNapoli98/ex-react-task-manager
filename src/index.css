@@ -54,6 +54,7 @@ text-decoration: none;
 
 .btn-cancel {
   background-color: #ccc;
+  padding: 0.5rem 1rem;
 }
 
 .btn-confirm {
@@ -120,3 +121,4 @@ button[type="submit"] {
   border-radius: 16px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
+
