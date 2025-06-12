@@ -1,13 +1,19 @@
-import { useMemo } from "react"
-import { useParams } from "react-router-dom"
+import { useMemo, useState } from "react"
+import { Navigate, useParams } from "react-router-dom"
 import { useContext } from "react";
 import GlobalContext from "../Contexts/GlobalContext";
+import useTasks from "../Hooks/useTasks";
+import { useNavigate } from "react-router-dom";
 
 
 export default function TaskDetail(){
 
     const {id} = useParams()
      const { tasks } = useContext(GlobalContext);
+     const [remove, setRemove] = useState()
+     const { removeTask } = useTasks();
+     const navigate = useNavigate();
+     
     
     const task = tasks.find(t => String(t.id) === id);
     
@@ -20,6 +26,18 @@ export default function TaskDetail(){
             <p>Task non trovata</p>
         )
     }
+
+    async function hendleRemove(){
+        try{
+            await removeTask(task.id)
+            alert(`Eliminazione task con id : ${task.id} avvenuta con successo`)
+            navigate("/taskList")
+        }catch (error){
+            alert("errore durante l'eliminazione")
+
+        }
+    }
+   
    
     return(
         <>
@@ -34,6 +52,7 @@ export default function TaskDetail(){
                     <p>Data : {formattedDate}</p>
                     <p>Status : {task.status}</p>
                 </div>
+                <button onClick={hendleRemove}>Elimina Task</button>
             </div>
         </>
     )
